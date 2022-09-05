@@ -1,0 +1,58 @@
+{% extends "post_base_page.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container">
+    <div class ="row1">
+        <h2 class="card-title">{{post.headline}}</h2>
+        <h3 class="card-subtitle mb-2 text-muted">reporter : {{ post.reporter.first_name }} {{ post.reporter.last_name }} ({{ post.reporter }})</h3>
+        {% for category in post.category.all %}
+        <a href="{% url 'categorydetail' category.id %}" class="card-link">{{ category.title }}</a>
+        {% endfor %}
+    <div class = card  style="background-color: #9cc9c9;text-align: center; align-content: center; ">
+        {{post.text}}
+        <div class = card style="background-color: cornflowerblue; text-align: left;align-content: center">
+        <a href="#" onClick="document.getElementById('likebutton').submit()">Like This Post</a> {{post.like}}
+            <form id="likebutton" method="POST" action="/posts/{{post.id}}/preference/1/">
+            {% csrf_token %}
+            <input type="hidden">
+            </form>
+        </div>
+    </div>
+
+    {% for tag in post.tag.all %}
+        <a href="{% url 'tagdetail' tag.id %}" class="card-link">{{ tag.title }}</a>
+        {% empty %}
+              <p>There is no tags</p>
+    {% endfor %}
+
+    <div>{{post.date}}</div></div>
+
+    <div>
+        {% for comment in post.comment_set.all %}
+             <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comment.account.username }}</h5>
+                    <p class="card-text">{{ comment.text| truncatechars:500 }} </p>
+                </div>
+            </div>
+        {% empty %}
+              <p>There is no comments</p>
+        {% endfor %}
+    </div>
+        {% if user.is_authenticated %}
+        <div class="card-action">
+
+            <h3>Leave a comment</h3>
+        <form method="post" style="margin-top: 1.3em;">
+          {{ form|crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+        </form>
+        </div>
+        {% else %}
+            <div class="card-action">
+            <h3>please log in to comment <a class ="ml-2" href={% url 'login' %}>Sign In </a> </h3>
+
+            </div>
+        {% endif %}
+{% endblock %}

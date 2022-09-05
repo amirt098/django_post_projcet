@@ -1,0 +1,26 @@
+{% extends "post_base_page.html" %}
+
+{% block content %}
+    <h2>Posts</h2>
+    <ul>
+        {% for post in post_list %}
+        <a href="{% url 'postdetail' post.id %}">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.headline }}</h5>
+                     {% for categoryS in post.category.all %}
+                     <a href="{% url 'categorydetail' categoryS.id %}" class="card-link">{{ categoryS.category.title }}</a>
+                        {% endfor %}
+                    <p class="card-text">{{ post.text| truncatechars:100 }} </p>
+                    <p class="card-text"><small class="text-muted">{{ post.date }} </small></p>
+                      {% for tagS in post.tag.all %}
+                        <a href="{% url 'tagdetail' tagS.id %}" class="card-link">{{ tagS.tag.title }}</a>
+                      {% endfor %}
+                </div>
+            </div>
+        </a>
+            {% empty %}
+            <li> there is no post</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
