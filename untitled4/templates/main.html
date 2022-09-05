@@ -1,0 +1,32 @@
+{% extends 'post_base_page.html' %}
+{% block content %}
+    <style>
+    body {
+
+        -moz-background-size: auto;
+  color: aqua;
+    }
+    .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+</style>
+
+<div class="center">
+<div>
+    <p style="display:block">Hello How are you ?</p>
+    <p>new news</p>
+   {% load static %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+{% include "slide.html" %}
+
+</div>
+</div>
+
+{% endblock %}
+
+

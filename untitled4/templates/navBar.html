@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href={% url 'home' %}>Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href= {% url 'posts' %}>Posts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li>
+        <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             Category
+         </a>
+
+        <ul class="dropdown-menu">
+            {%for category in categorys %}
+                {% if category.parent is none %}
+             <li><a class="dropdown-item"href="{% url 'categorydetail' category.id %}" >{{ category.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+        </ul>
+        </div>
+              <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             TAGS
+         </a>
+
+        <ul class="dropdown-menu">
+            {% for tag in tags %}
+                <li><a class="dropdown-item" href="{% url 'tagdetail' tag.id %}">{{ tag.title }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+      </ul>
+        <div class = "navbar-nav">
+            {% if user.is_authenticated %}
+                 {% if user.position  == 'writer' or user.position == 'admin' %}
+                     <a class="nav-link active" aria-current="page" href={% url 'categoryCreating' %}>create category</a>
+                     <a class="nav-link active" aria-current="page" href={% url 'tagCreating' %}>create tag</a>
+                     <a class="nav-link active" aria-current="page" href={% url 'report' %}>report post</a>
+                 {% endif %}
+                <a class="nav-link active" aria-current="page" href={% url 'profile' %}>profile</a>
+                <a class="nav-link active" aria-current="page" href={% url 'logout' %}>logout</a>
+            {% else %}
+               <a class="nav-link active" aria-current="page" href={% url 'register' %}>register</a>
+               <a class="nav-link active" aria-current="page" href={% url 'login' %}>login</a>
+            {% endif %}
+
+        </div>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
